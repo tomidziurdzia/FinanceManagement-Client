@@ -4,10 +4,13 @@ import ProtectedRoutes from "./layouts/ProtectedRoutes";
 import PublicRoutes from "./layouts/PublicRoutes";
 import ConfirmAccount from "./pages/ConfirmAccount";
 import ForgetPassword from "./pages/ForgetPassword";
-import Home from "./pages/Home";
 import NewPassword from "./pages/NewPassword";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
+import Dashboard from "./pages/Dashboard";
+import Transactions from "./pages/Transactions";
+import Accounts from "./pages/Accounts";
+import Settings from "./pages/Settings";
 
 const App = () => {
   return (
@@ -21,7 +24,10 @@ const App = () => {
           <Route path="forget-password" element={<ForgetPassword />} />
         </Route>
         <Route element={<ProtectedRoutes />}>
-          <Route path="/home" element={<Home />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/transactions" element={<Transactions />} />
+          <Route path="/accounts" element={<Accounts />} />
+          <Route path="/settings" element={<Settings />} />
         </Route>
       </Routes>
     </BrowserRouter>
