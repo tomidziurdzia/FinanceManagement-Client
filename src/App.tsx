@@ -11,8 +11,22 @@ import Dashboard from "./pages/Dashboard";
 import Transactions from "./pages/Transactions";
 import Accounts from "./pages/Accounts";
 import Settings from "./pages/Settings";
+import { useAppSelector, useAppDispatch } from "./store/store";
+import { setLoggedIn } from "./store/auth/authActions";
 
 const App = () => {
+  const { user } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+
+  React.useEffect(() => {
+    const checkAuth = async () => {
+      await dispatch(setLoggedIn());
+    };
+    checkAuth();
+  }, []);
+
+  console.log(user);
+
   return (
     <BrowserRouter>
       <Routes>

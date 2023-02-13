@@ -1,8 +1,33 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import GoogleIcon from "../assets/GoogleIcon";
+import { useAppDispatch } from "../store/store";
+import { loginUser } from "../store/auth/authActions";
+
+interface UserForm {
+  email: string;
+  password: string;
+}
 
 const SignIn = () => {
+  const [user, setUser] = React.useState<UserForm>({
+    email: "",
+    password: "",
+  });
+
+  const dispatch = useAppDispatch();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUser({
+      ...user,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    await dispatch(loginUser(user));
+  };
   return (
     <div>
       <div className="mb-5">
@@ -10,7 +35,7 @@ const SignIn = () => {
         <p className="text-sm text-gray-400">Please enter your details</p>
       </div>
       <div>
-        <form action="">
+        <form action="" onSubmit={handleSubmit}>
           <div className="mb-5">
             <label className="block" htmlFor="email">
               Email
@@ -19,14 +44,20 @@ const SignIn = () => {
               type="text"
               placeholder="Enter your email"
               className="w-full mt-3 p-3 border rounded-md text-sm "
+              name="email"
+              value={user.email}
+              onChange={handleChange}
             />
           </div>
           <div className="mb-5">
             <label htmlFor="password">Password</label>
             <input
-              type="text"
+              type="password"
               placeholder="*********"
               className="w-full mt-3 p-3 border rounded-md text-sm "
+              name="password"
+              value={user.password}
+              onChange={handleChange}
             />
           </div>
           <input
