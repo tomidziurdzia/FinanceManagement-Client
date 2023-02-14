@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import DashboardIcon from "../assets/DashboardIcon";
 import TransactionIcon from "../assets/TransactionIcon";
 import WalletIcon from "../assets/WalletIcon";
@@ -10,15 +10,16 @@ const Sidebar = () => {
   let activeStyle = {
     backgroundColor: "#C8EE44",
   };
+
   return (
     <div className="flex flex-col h-full justify-between">
       <nav className="w-full mt-20 p-8">
         <ul className="text-xl">
           <li className="mb-4">
             <NavLink
-              to="dashboard"
-              style={({ isActive }) => (isActive ? activeStyle : undefined)}
+              to="/dashboard"
               className="flex p-3 rounded-xl justify-start"
+              style={({ isActive }) => (isActive ? activeStyle : undefined)}
             >
               <DashboardIcon />
               <p className="pl-3">Dashboard</p>

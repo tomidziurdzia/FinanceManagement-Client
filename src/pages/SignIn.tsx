@@ -1,8 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import GoogleIcon from "../assets/GoogleIcon";
-import { useAppDispatch } from "../store/store";
+import { useAppDispatch, useAppSelector } from "../store/store";
 import { loginUser } from "../store/auth/authActions";
+import { AlertProps } from "../interfaces/User";
+import Alert from "../components/Alert";
 
 interface UserForm {
   email: string;
@@ -10,24 +12,48 @@ interface UserForm {
 }
 
 const SignIn = () => {
-  const [user, setUser] = React.useState<UserForm>({
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const [values, setValues] = React.useState<UserForm>({
     email: "",
     password: "",
   });
+  const [alert, setAlert] = React.useState<AlertProps>({
+    msg: "",
+    error: undefined,
+  });
 
-  const dispatch = useAppDispatch();
+  const { errorMessage } = useAppSelector((state) => state.auth);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUser({
-      ...user,
+    setValues({
+      ...values,
       [e.target.name]: e.target.value,
     });
   };
 
+  React.useEffect(() => {
+    if (errorMessage) {
+      setAlert({ msg: errorMessage.msg, error: errorMessage.error });
+      return;
+    }
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await dispatch(loginUser(user));
+
+    if ([values.email, values.password].includes("")) {
+      setAlert({ msg: "All fields are required", error: true });
+      return;
+    }
+
+    await dispatch(loginUser(values));
+
+    navigate("/dashboard");
   };
+
+  const { msg, error } = alert;
+
   return (
     <div>
       <div className="mb-5">
@@ -35,6 +61,7 @@ const SignIn = () => {
         <p className="text-sm text-gray-400">Please enter your details</p>
       </div>
       <div>
+        {msg && <Alert msg={msg} error={error} />}
         <form action="" onSubmit={handleSubmit}>
           <div className="mb-5">
             <label className="block" htmlFor="email">
@@ -45,7 +72,7 @@ const SignIn = () => {
               placeholder="Enter your email"
               className="w-full mt-3 p-3 border rounded-md text-sm "
               name="email"
-              value={user.email}
+              value={values.email}
               onChange={handleChange}
             />
           </div>
@@ -56,7 +83,7 @@ const SignIn = () => {
               placeholder="*********"
               className="w-full mt-3 p-3 border rounded-md text-sm "
               name="password"
-              value={user.password}
+              value={values.password}
               onChange={handleChange}
             />
           </div>

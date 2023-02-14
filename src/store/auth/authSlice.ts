@@ -16,7 +16,7 @@ interface AuthState {
 const initialState: AuthState = {
   loading: false,
   user: null,
-  status: "not-authenticated",
+  status: "checking",
   errorMessage: {
     msg: "",
     error: false,

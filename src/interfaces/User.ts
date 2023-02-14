@@ -5,3 +5,8 @@ export interface User {
   email: string;
   googleAcount: boolean;
 }
+
+export interface AlertProps {
+  msg: string;
+  error: boolean | undefined;
+}

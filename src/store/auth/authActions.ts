@@ -26,8 +26,7 @@ export const setLoggedIn = createAsyncThunk(
 
     try {
       const { data } = await clientAxios("users/perfil");
-      console.log(data);
-      //   localStorage.setItem("token", data.token);
+      localStorage.setItem("token", data.token);
       return data;
     } catch (error: any) {
       localStorage.clear();
