@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import GoogleIcon from "../assets/GoogleIcon";
+import GoogleButton from "../components/GoogleButton";
 
 const SignUp = () => {
   return (
@@ -9,7 +10,7 @@ const SignUp = () => {
         <p className="text-2xl">Create new account</p>
         <p className="text-sm text-gray-400">Please enter your details</p>
       </div>
-      <div>
+      <div className="flex w-96 flex-col justify-center">
         <form action="">
           <div className="mb-5">
             <label className="block" htmlFor="email">
@@ -45,16 +46,15 @@ const SignUp = () => {
             className="bg-primary w-full p-2 rounded-md shadow-sm hover:cursor-pointer hover:opacity-80"
           />
         </form>
-        <button className="flex border mt-5 w-full justify-center p-2 text-gray-500 rounded-md shadow-sm">
-          <GoogleIcon />
-          <p className="ml-2">Sign up with Google</p>
+        <button className="w-96 mt-5">
+          <GoogleButton />
         </button>
       </div>
 
       <div className="mt-6">
         <div className="flex text-sm mt-4 justify-center">
           <p className="mr-2 text-gray-500">Already have an account?</p>
-          <Link to="/" className="font-bold">
+          <Link to="/auth/signin" className="font-bold">
             Sign in
           </Link>
         </div>

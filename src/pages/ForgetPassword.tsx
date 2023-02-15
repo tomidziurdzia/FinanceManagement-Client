@@ -9,7 +9,7 @@ const ForgetPassword = () => {
         <p className="text-2xl">Recovery account</p>
         <p className="text-sm text-gray-400">Please enter your details</p>
       </div>
-      <div>
+      <div className="flex w-96 flex-col justify-center">
         <form action="">
           <div className="mb-5">
             <label className="block" htmlFor="email">
@@ -33,7 +33,7 @@ const ForgetPassword = () => {
       <div className="mt-6">
         <div className="flex text-sm mt-4 justify-center">
           <p className="mr-2 text-gray-500">Already have an account?</p>
-          <Link to="/" className="font-bold">
+          <Link to="/auth/signin" className="font-bold">
             Sign in
           </Link>
         </div>

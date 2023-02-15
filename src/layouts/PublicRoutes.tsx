@@ -11,7 +11,7 @@ const PublicRoutes = () => {
   return (
     <div className="container mx-auto md:flex md:mt-20 justify-center max-w-screen-lg shadow rounded-md bg-white">
       <div className="w-1/2 m-auto">
-        <div className="w-full px-10">
+        <div className="w-full flex justify-center px-10">
           {/* <Outlet /> */}
           <Routes>
             <Route path="signin" element={<SignIn />} />

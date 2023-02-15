@@ -1,10 +1,10 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import GoogleIcon from "../assets/GoogleIcon";
 import { useAppDispatch, useAppSelector } from "../store/store";
 import { loginUser } from "../store/auth/authActions";
 import { AlertProps } from "../interfaces/User";
 import Alert from "../components/Alert";
+import GoogleButton from "../components/GoogleButton";
 
 interface UserForm {
   email: string;
@@ -12,6 +12,9 @@ interface UserForm {
 }
 
 const SignIn = () => {
+  const [user, setUser] = React.useState({});
+  console.log(user);
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [values, setValues] = React.useState<UserForm>({
@@ -60,9 +63,9 @@ const SignIn = () => {
         <p className="text-2xl">Welcome back !</p>
         <p className="text-sm text-gray-400">Please enter your details</p>
       </div>
-      <div>
+      <div className="flex w-96 flex-col justify-center">
         {msg && <Alert msg={msg} error={error} />}
-        <form action="" onSubmit={handleSubmit}>
+        <form action="" onSubmit={handleSubmit} className="w-96">
           <div className="mb-5">
             <label className="block" htmlFor="email">
               Email
@@ -93,22 +96,21 @@ const SignIn = () => {
             className="bg-primary w-full p-2 rounded-md shadow-sm hover:cursor-pointer hover:opacity-80"
           />
         </form>
-        <button className="flex border mt-5 w-full justify-center p-2 text-gray-500 rounded-md shadow-sm">
-          <GoogleIcon />
-          <p className="ml-2">Sign in with Google</p>
+        <button className="w-96 mt-5">
+          <GoogleButton setUser={setUser} />
         </button>
       </div>
 
       <div className="mt-6">
         <div className="flex text-sm mt-4 justify-center">
           <p className="mr-2 text-gray-500">Don't have an account?</p>
-          <Link to="/signup" className="font-bold">
+          <Link to="/auth/signup" className="font-bold">
             Sign up for free
           </Link>
         </div>
         <Link
           className="flex justify-center text-sm mt-4 text-gray-500"
-          to="/forget-password"
+          to="/auth/forget-password"
         >
           Forgot password
         </Link>
