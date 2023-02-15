@@ -1,16 +1,50 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import GoogleIcon from "../assets/GoogleIcon";
+import { AlertProps } from "../interfaces/User";
+import clientAxios from "../config/clientAxios";
+import Alert from "../components/Alert";
 
 const ForgetPassword = () => {
+  const [email, setEmail] = React.useState("");
+  const [alert, setAlert] = React.useState<AlertProps>({
+    msg: "",
+    error: undefined,
+  });
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (email === "") {
+      setAlert({ msg: "Email is required", error: true });
+      return;
+    }
+
+    try {
+      const { data } = await clientAxios.post("/users/forget-password", {
+        email,
+      });
+      setAlert({ msg: data.msg, error: false });
+      setEmail("");
+    } catch (error) {
+      console.log(error);
+      // setAlert({
+      //   msg: data.msg,
+      //   error: true,
+      // });
+    }
+  };
+
+  const { msg, error } = alert;
+
   return (
     <div>
       <div className="mb-5">
         <p className="text-2xl">Recovery account</p>
         <p className="text-sm text-gray-400">Please enter your details</p>
       </div>
+      {msg && <Alert msg={msg} error={error} />}
       <div className="flex w-96 flex-col justify-center">
-        <form action="">
+        <form action="" onSubmit={handleSubmit}>
           <div className="mb-5">
             <label className="block" htmlFor="email">
               Email
@@ -19,6 +53,8 @@ const ForgetPassword = () => {
               type="text"
               placeholder="Enter your email"
               className="w-full mt-3 p-3 border rounded-md text-sm "
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 

@@ -3,7 +3,7 @@ import jwtDecode from "jwt-decode";
 import { useLocation } from "react-router-dom";
 
 interface Props {
-  setUser: React.Dispatch<React.SetStateAction<{}>>;
+  setUser?: React.Dispatch<React.SetStateAction<{}>>;
 }
 
 const GoogleButton = ({ setUser }: Props) => {

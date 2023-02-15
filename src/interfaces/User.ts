@@ -1,9 +1,11 @@
 export interface User {
-  _id: string;
+  _id?: string;
   name: string;
   surname: string;
   email: string;
-  googleAcount: boolean;
+  googleAcount?: boolean;
+  password?: string;
+  picture?: string;
 }
 
 export interface AlertProps {
