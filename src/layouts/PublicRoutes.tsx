@@ -9,9 +9,9 @@ import SignUp from "../pages/SignUp";
 
 const PublicRoutes = () => {
   return (
-    <div className="container mx-auto md:flex md:mt-20 justify-center max-w-screen-lg shadow rounded-md bg-white">
-      <div className="w-1/2 m-auto">
-        <div className="w-full flex justify-center px-10">
+    <div className="lg:container lg:mx-auto lg:flex lg:mt-20 justify-center lg:max-w-screen-lg shadow rounded-md bg-white mx-3 mt-10">
+      <div className="lg:w-1/2 w-full m-auto">
+        <div className="w-full flex justify-center p-3 lg:px-10">
           {/* <Outlet /> */}
           <Routes>
             <Route path="signin" element={<SignIn />} />
@@ -22,7 +22,7 @@ const PublicRoutes = () => {
           </Routes>
         </div>
       </div>
-      <div className="w-1/2">
+      <div className="lg:w-1/2 hidden lg:flex">
         <img src={image} className="rounded-r-md" />
       </div>
     </div>

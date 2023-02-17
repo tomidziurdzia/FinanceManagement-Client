@@ -54,16 +54,15 @@ const SignUp = () => {
   };
 
   const { msg, error } = alert;
-  console.log(error);
   return (
-    <div>
+    <div className="w-full">
       <div className="mb-5">
         <p className="text-2xl">Create new account</p>
         <p className="text-sm text-gray-400">Please enter your details</p>
       </div>
       {msg && <Alert msg={msg} error={error} />}
       {(error === undefined || error === true) && (
-        <div className="flex w-96 flex-col justify-center">
+        <div className="flex lg:w-96 flex-col justify-center">
           <form action="" onSubmit={handleSubmit}>
             <div className="mb-5">
               <label className="block" htmlFor="name">
@@ -121,7 +120,7 @@ const SignUp = () => {
               className="bg-primary w-full p-2 rounded-md shadow-sm hover:cursor-pointer hover:opacity-80"
             />
           </form>
-          <button className="w-96 mt-5">
+          <button className="lg:w-96 mt-5">
             <GoogleButton />
           </button>
         </div>

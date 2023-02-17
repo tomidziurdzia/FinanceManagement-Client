@@ -7,13 +7,15 @@ interface Props {
 }
 
 const GoogleButton = ({ setUser }: Props) => {
+  // const width = window.screen.width < 500 ? 342 : 350;
+
   const { pathname } = useLocation();
   const route = pathname.split("/")[2];
 
   function handleCallbackResponse(response: any) {
     const userObject: any = jwtDecode(response.credential);
 
-    setUser(userObject);
+    setUser!(userObject);
     document.getElementById("signInDiv")!.hidden = true;
   }
 
@@ -36,14 +38,18 @@ const GoogleButton = ({ setUser }: Props) => {
       size: "large",
       type: "standard",
       logo_alignment: "center",
-      width: 385,
+      width: 342,
       locale: "EN-en",
       border: "none",
     });
 
     google.accounts.id.prompt();
   }, []);
-  return <div id="signInDiv" className="w-full"></div>;
+  return (
+    <div className="w-full">
+      <div id="signInDiv" className="flex justify-center"></div>
+    </div>
+  );
 };
 
 export default GoogleButton;

@@ -13,7 +13,6 @@ interface UserForm {
 
 const SignIn = () => {
   const [user, setUser] = React.useState({});
-  console.log(user);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -58,14 +57,14 @@ const SignIn = () => {
   const { msg, error } = alert;
 
   return (
-    <div>
+    <div className="w-full">
       <div className="mb-5">
         <p className="text-2xl">Welcome back !</p>
         <p className="text-sm text-gray-400">Please enter your details</p>
       </div>
-      <div className="flex w-96 flex-col justify-center">
+      <div className="flex w-full lg:w-96 flex-col justify-center">
         {msg && <Alert msg={msg} error={error} />}
-        <form action="" onSubmit={handleSubmit} className="w-96">
+        <form action="" onSubmit={handleSubmit} className="lg:w-96">
           <div className="mb-5">
             <label className="block" htmlFor="email">
               Email
@@ -96,9 +95,9 @@ const SignIn = () => {
             className="bg-primary w-full p-2 rounded-md shadow-sm hover:cursor-pointer hover:opacity-80"
           />
         </form>
-        <button className="w-96 mt-5">
+        <div className="mt-5">
           <GoogleButton setUser={setUser} />
-        </button>
+        </div>
       </div>
 
       <div className="mt-6">

@@ -37,13 +37,13 @@ const ForgetPassword = () => {
   const { msg, error } = alert;
 
   return (
-    <div>
+    <div className="w-full">
       <div className="mb-5">
         <p className="text-2xl">Recovery account</p>
         <p className="text-sm text-gray-400">Please enter your details</p>
       </div>
       {msg && <Alert msg={msg} error={error} />}
-      <div className="flex w-96 flex-col justify-center">
+      <div className="flex lg:w-96 flex-col justify-center">
         <form action="" onSubmit={handleSubmit}>
           <div className="mb-5">
             <label className="block" htmlFor="email">
