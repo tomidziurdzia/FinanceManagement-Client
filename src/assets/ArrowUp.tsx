@@ -1,6 +1,6 @@
 const ArrowUp = () => {
   return (
-    <div className="flex items-center">
+    <div className="h-5 md:h-7 w-5 md:w-7 flex justify-center items-center">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         className="icon icon-tabler icon-tabler-arrow-narrow-up"

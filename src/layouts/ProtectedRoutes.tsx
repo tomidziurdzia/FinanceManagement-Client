@@ -9,10 +9,10 @@ import Settings from "../pages/Settings";
 const ProtectedRoutes = () => {
   return (
     <div className="flex bg-white min-h-screen">
-      <div className="bg-gray-50 w-2/12">
+      <div className="bg-gray-50 w-2/12 hidden md:flex">
         <Sidebar />
       </div>
-      <div className="w-10/12 px-4">
+      <div className="w-full md:w-10/12 px-4">
         <Header />
 
         <Routes>

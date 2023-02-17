@@ -7,8 +7,6 @@ interface Props {
 }
 
 const GoogleButton = ({ setUser }: Props) => {
-  // const width = window.screen.width < 500 ? 342 : 350;
-
   const { pathname } = useLocation();
   const route = pathname.split("/")[2];
 
@@ -20,6 +18,7 @@ const GoogleButton = ({ setUser }: Props) => {
   }
 
   React.useEffect(() => {
+    // @ts-ignore
     google.accounts!.id.initialize({
       client_id: `${import.meta.env.VITE_GOOGLE_CLIENT_ID}`,
 
@@ -27,6 +26,7 @@ const GoogleButton = ({ setUser }: Props) => {
     });
 
     const docGetId = document.getElementById("signInDiv");
+    // @ts-ignore
     google.accounts.id.renderButton(docGetId, {
       text:
         route === "signin"
@@ -42,7 +42,7 @@ const GoogleButton = ({ setUser }: Props) => {
       locale: "EN-en",
       border: "none",
     });
-
+    // @ts-ignore
     google.accounts.id.prompt();
   }, []);
   return (

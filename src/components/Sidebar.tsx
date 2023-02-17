@@ -7,7 +7,7 @@ import SettingIcon from "../assets/SettingIcon";
 import LogoutIcon from "../assets/LogoutIcon";
 
 const Sidebar = () => {
-  let activeStyle = {
+  const activeStyle = {
     backgroundColor: "#C8EE44",
   };
 
