@@ -1,6 +1,12 @@
 import { Menu, Transition } from "@headlessui/react";
 import React, { Fragment } from "react";
 import { NavLink, useHref } from "react-router-dom";
+import DashboardIcon from "../assets/DashboardIcon";
+import CategoryIcon from "../assets/CategoryIcon";
+import TransactionIcon from "../assets/TransactionIcon";
+import SettingIcon from "../assets/SettingIcon";
+import WalletIcon from "../assets/WalletIcon";
+import LogoutIcon from "../assets/LogoutIcon";
 
 const DropdownMenu = () => {
   function classNames(...classes: any) {
@@ -53,7 +59,31 @@ const DropdownMenu = () => {
                   )}
                   style={({ isActive }) => (isActive ? activeStyle : undefined)}
                 >
-                  Dashboard
+                  <div className="flex items-center gap-2">
+                    <div className="w-4">
+                      <DashboardIcon />
+                    </div>
+                    Dashboard
+                  </div>
+                </NavLink>
+              )}
+            </Menu.Item>
+            <Menu.Item>
+              {({ active }) => (
+                <NavLink
+                  to="/categories"
+                  className={classNames(
+                    active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                    "block px-4 py-2 text-sm"
+                  )}
+                  style={({ isActive }) => (isActive ? activeStyle : undefined)}
+                >
+                  <div className="flex items-center gap-2">
+                    <div className="w-4">
+                      <CategoryIcon />
+                    </div>
+                    Categories
+                  </div>
                 </NavLink>
               )}
             </Menu.Item>
@@ -67,7 +97,12 @@ const DropdownMenu = () => {
                   )}
                   style={({ isActive }) => (isActive ? activeStyle : undefined)}
                 >
-                  Transactions
+                  <div className="flex items-center gap-2">
+                    <div className="w-4">
+                      <TransactionIcon />
+                    </div>
+                    Transactions
+                  </div>
                 </NavLink>
               )}
             </Menu.Item>
@@ -81,7 +116,12 @@ const DropdownMenu = () => {
                   )}
                   style={({ isActive }) => (isActive ? activeStyle : undefined)}
                 >
-                  Accounts
+                  <div className="flex items-center gap-2">
+                    <div className="w-4">
+                      <WalletIcon />
+                    </div>
+                    Accounts
+                  </div>
                 </NavLink>
               )}
             </Menu.Item>
@@ -95,7 +135,12 @@ const DropdownMenu = () => {
                   )}
                   style={({ isActive }) => (isActive ? activeStyle : undefined)}
                 >
-                  Settings
+                  <div className="flex items-center gap-2">
+                    <div className="w-4">
+                      <SettingIcon />
+                    </div>
+                    Settings
+                  </div>
                 </NavLink>
               )}
             </Menu.Item>
@@ -111,7 +156,12 @@ const DropdownMenu = () => {
                     "block px-4 py-2 text-sm"
                   )}
                 >
-                  Logout
+                  <div className="flex items-center gap-2">
+                    <div className="w-4">
+                      <LogoutIcon />
+                    </div>
+                    Logout
+                  </div>
                 </a>
               )}
             </Menu.Item>

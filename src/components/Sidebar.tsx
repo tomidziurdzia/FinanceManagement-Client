@@ -5,6 +5,7 @@ import TransactionIcon from "../assets/TransactionIcon";
 import WalletIcon from "../assets/WalletIcon";
 import SettingIcon from "../assets/SettingIcon";
 import LogoutIcon from "../assets/LogoutIcon";
+import CategoryIcon from "../assets/CategoryIcon";
 
 const Sidebar = () => {
   const activeStyle = {
@@ -23,6 +24,16 @@ const Sidebar = () => {
             >
               <DashboardIcon />
               <p className="pl-3">Dashboard</p>
+            </NavLink>
+          </li>
+          <li className="mb-4">
+            <NavLink
+              to="categories"
+              style={({ isActive }) => (isActive ? activeStyle : undefined)}
+              className="flex p-3  rounded-xl justify-start"
+            >
+              <CategoryIcon />
+              <p className="pl-3">Categories</p>
             </NavLink>
           </li>
           <li className="mb-4">

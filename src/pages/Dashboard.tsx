@@ -1,4 +1,4 @@
-import Categories from "../components/Categories";
+import DashboardCategories from "../components/DashboardCategories";
 import Chart from "../components/Chart";
 import DashboardBalance from "../components/DashboardBalance";
 import DashboardTransactions from "../components/DashboardTransactions";
@@ -12,7 +12,7 @@ const Dashboard = () => {
           <Chart />
         </div>
         <div className="w-3/12 ml-4 hidden md:flex">
-          <Categories />
+          <DashboardCategories />
         </div>
       </div>
       <div className="">

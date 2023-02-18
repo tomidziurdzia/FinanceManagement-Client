@@ -1,9 +1,11 @@
-const DashboardIcon = () => {
+import React from "react";
+
+const CategoryIcon = () => {
   return (
     <div className="flex items-center">
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        className="icon icon-tabler icon-tabler-tag"
+        className="icon icon-tabler icon-tabler-bookmark"
         width="28"
         height="28"
         viewBox="0 0 24 24"
@@ -14,11 +16,10 @@ const DashboardIcon = () => {
         strokeLinejoin="round"
       >
         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-        <circle cx="8.5" cy="8.5" r="1" fill="currentColor" />
-        <path d="M4 7v3.859c0 .537 .213 1.052 .593 1.432l8.116 8.116a2.025 2.025 0 0 0 2.864 0l4.834 -4.834a2.025 2.025 0 0 0 0 -2.864l-8.117 -8.116a2.025 2.025 0 0 0 -1.431 -.593h-3.859a3 3 0 0 0 -3 3z" />
+        <path d="M9 4h6a2 2 0 0 1 2 2v14l-5 -3l-5 3v-14a2 2 0 0 1 2 -2" />
       </svg>
     </div>
   );
 };
 
-export default DashboardIcon;
+export default CategoryIcon;

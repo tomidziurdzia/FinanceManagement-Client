@@ -21,10 +21,10 @@ const DashboardBalance = () => {
             <ArrowUp />
           </div>
           <div className="flex flex-col">
-            <p className="text-terciary text-lg mb-2 m-auto hidden md:block">
+            <p className="text-terciary text-lg md:text-2xl mb-2 m-auto hidden md:block">
               Total incoming
             </p>
-            <p className="text-terciary m-auto">$ 540,20</p>
+            <p className="text-terciary text-lg md:text-2xl m-auto">$ 540,20</p>
           </div>
         </div>
         <div className="bg-gray-50 flex m-auto md:m-0 md:w-96 gap-6 justify-center items-center rounded-xl h-12 md:h-28 shadow-sm p-4 md:p-0">
@@ -32,7 +32,7 @@ const DashboardBalance = () => {
             <ArrowDown />
           </div>
           <div className="flex flex-col">
-            <p className="text-terciary text-lg mb-2 m-auto hidden md:block">
+            <p className="text-terciary text-lg md:text-2xl mb-2 m-auto hidden md:block">
               Total spending
             </p>
             <p className="text-terciary text-lg md:text-2xl  m-auto">

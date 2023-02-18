@@ -18,7 +18,7 @@ const Header = () => {
           <p className="mr-4 text-2xl">{">"}</p>
         </div>
       </header>
-      <div className="flex md:hidden justify-between my-4">
+      <div className="flex lg:hidden justify-between my-4">
         <p className="text-2xl">{headerName}</p>
         <DropdownMenu />
       </div>

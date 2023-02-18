@@ -1,7 +1,7 @@
 import React from "react";
 import { MdFastfood, MdDirectionsCar } from "react-icons/md";
 
-const Categories = () => {
+const DashboardCategories = () => {
   return (
     <div className="w-full ">
       <div className="mb-5">
@@ -96,4 +96,4 @@ const Categories = () => {
   );
 };
 
-export default Categories;
+export default DashboardCategories;
