@@ -1,4 +1,4 @@
-import { createAsyncThunk, isRejected } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import clientAxios from "../../config/clientAxios";
 import { User } from "../../interfaces/User";
 

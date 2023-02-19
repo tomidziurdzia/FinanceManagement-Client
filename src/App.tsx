@@ -17,7 +17,7 @@ const App = () => {
     checkAuth();
   }, [setLoggedIn]);
 
-  if (status === "checking") return "Loading...";
+  if (status === "checking") return <div>Loading...</div>;
 
   return (
     <BrowserRouter>
