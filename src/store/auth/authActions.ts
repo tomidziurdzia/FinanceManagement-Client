@@ -18,6 +18,23 @@ export const loginUser = createAsyncThunk<User | any, Object>(
   }
 );
 
+export const loginGoogle = createAsyncThunk<User | any, Object>(
+  "auth/login",
+  async (id_token, thunkAPI) => {
+    try {
+      const { data } = await clientAxios.post("users/google", { id_token });
+      localStorage.setItem("token", data.token);
+      return data;
+    } catch (error: any) {
+      console.log(error);
+      return thunkAPI.rejectWithValue({
+        msg: error.response.data.msg,
+        error: true,
+      });
+    }
+  }
+);
+
 export const setLoggedIn = createAsyncThunk(
   "auth/currentUser",
   async (_, thunkAPI) => {
@@ -32,5 +49,13 @@ export const setLoggedIn = createAsyncThunk(
       localStorage.clear();
       return thunkAPI.rejectWithValue(error.response.data.msg);
     }
+  }
+);
+
+export const startLogout = createAsyncThunk(
+  "auth/logout",
+  async (_, thunkAPI) => {
+    localStorage.clear();
+    return;
   }
 );

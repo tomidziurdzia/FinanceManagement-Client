@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { User } from "../../interfaces/User";
-import { loginUser, setLoggedIn } from "./authActions";
+import { loginUser, setLoggedIn, startLogout } from "./authActions";
 
 interface Error {
   msg: string;
@@ -54,6 +54,10 @@ export const authSlice = createSlice({
       state.status = "not-authenticated";
       state.user = null;
       state.errorMessage = { msg: "", error: false };
+    });
+    builder.addCase(startLogout.fulfilled, (state) => {
+      state.user = null;
+      state.status = "not-authenticated";
     });
   },
 });

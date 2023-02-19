@@ -1,12 +1,14 @@
 import { Menu, Transition } from "@headlessui/react";
 import React, { Fragment } from "react";
-import { NavLink, useHref } from "react-router-dom";
+import { NavLink, useHref, useNavigate } from "react-router-dom";
 import DashboardIcon from "../assets/DashboardIcon";
 import CategoryIcon from "../assets/CategoryIcon";
 import TransactionIcon from "../assets/TransactionIcon";
 import SettingIcon from "../assets/SettingIcon";
 import WalletIcon from "../assets/WalletIcon";
 import LogoutIcon from "../assets/LogoutIcon";
+import { useAppDispatch } from "../store/store";
+import { startLogout } from "../store/auth/authActions";
 
 const DropdownMenu = () => {
   function classNames(...classes: any) {
@@ -15,6 +17,14 @@ const DropdownMenu = () => {
 
   const activeStyle = {
     backgroundColor: "#C8EE44",
+  };
+
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await dispatch(startLogout());
+    navigate("auth/signin");
   };
 
   return (
@@ -156,12 +166,15 @@ const DropdownMenu = () => {
                     "block px-4 py-2 text-sm"
                   )}
                 >
-                  <div className="flex items-center gap-2">
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center gap-2"
+                  >
                     <div className="w-4">
                       <LogoutIcon />
                     </div>
                     Logout
-                  </div>
+                  </button>
                 </a>
               )}
             </Menu.Item>

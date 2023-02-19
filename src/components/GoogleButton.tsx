@@ -1,20 +1,20 @@
 import React from "react";
-import jwtDecode from "jwt-decode";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../store/store";
+import { loginGoogle } from "../store/auth/authActions";
 
-interface Props {
-  setUser?: React.Dispatch<React.SetStateAction<{}>>;
-}
-
-const GoogleButton = ({ setUser }: Props) => {
+const GoogleButton = () => {
+  const dispatch = useAppDispatch();
   const { pathname } = useLocation();
   const route = pathname.split("/")[2];
+  const navigate = useNavigate();
 
-  function handleCallbackResponse(response: any) {
-    const userObject: any = jwtDecode(response.credential);
+  async function handleCallbackResponse(response: any) {
+    const id_token = response.credential;
 
-    setUser!(userObject);
-    document.getElementById("signInDiv")!.hidden = true;
+    await dispatch(loginGoogle(id_token));
+    navigate("/");
+    // document.getElementById("signInDiv")!.hidden = true;
   }
 
   React.useEffect(() => {

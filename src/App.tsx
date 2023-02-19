@@ -17,6 +17,8 @@ const App = () => {
     checkAuth();
   }, [setLoggedIn]);
 
+  if (status === "checking") return "Loading...";
+
   return (
     <BrowserRouter>
       <Routes>
@@ -25,13 +27,11 @@ const App = () => {
             <Route path="/auth/*" element={<PublicRoutes />} />
             <Route path="/*" element={<Navigate to="/auth/signin" />} />
           </>
-        ) : status === "authenticated" ? (
+        ) : (
           <>
             <Route path="/*" element={<ProtectedRoutes />} />
             <Route path="/*" element={<Navigate to="/" />} />
           </>
-        ) : (
-          "Cargando...."
         )}
       </Routes>
     </BrowserRouter>

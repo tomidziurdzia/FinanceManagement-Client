@@ -17,7 +17,7 @@ const ProtectedRoutes = () => {
         <Header />
 
         <Routes>
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="*" index element={<Dashboard />} />
           <Route path="/transactions" element={<Transactions />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/accounts" element={<Accounts />} />

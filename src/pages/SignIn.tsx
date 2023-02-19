@@ -12,8 +12,6 @@ interface UserForm {
 }
 
 const SignIn = () => {
-  const [user, setUser] = React.useState({});
-
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [values, setValues] = React.useState<UserForm>({
@@ -51,7 +49,7 @@ const SignIn = () => {
 
     await dispatch(loginUser(values));
 
-    navigate("/dashboard");
+    navigate("/");
   };
 
   const { msg, error } = alert;
@@ -96,7 +94,7 @@ const SignIn = () => {
           />
         </form>
         <div className="mt-5">
-          <GoogleButton setUser={setUser} />
+          <GoogleButton />
         </div>
       </div>
 

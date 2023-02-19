@@ -1,15 +1,33 @@
 import React from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import DashboardIcon from "../assets/DashboardIcon";
 import TransactionIcon from "../assets/TransactionIcon";
 import WalletIcon from "../assets/WalletIcon";
 import SettingIcon from "../assets/SettingIcon";
 import LogoutIcon from "../assets/LogoutIcon";
 import CategoryIcon from "../assets/CategoryIcon";
+import { useAppDispatch } from "../store/store";
+import { startLogout } from "../store/auth/authActions";
 
 const Sidebar = () => {
   const activeStyle = {
     backgroundColor: "#C8EE44",
+  };
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await dispatch(startLogout());
+    navigate("auth/signin");
+  };
+
+  const activeDashboard = () => {
+    if (
+      window.location.pathname.length === 1 ||
+      window.location.pathname === "/auth/signin"
+    ) {
+      return true;
+    }
   };
 
   return (
@@ -18,9 +36,9 @@ const Sidebar = () => {
         <ul className="text-xl">
           <li className="mb-4">
             <NavLink
-              to="/dashboard"
+              to="/"
               className="flex p-3 rounded-xl justify-start"
-              style={({ isActive }) => (isActive ? activeStyle : undefined)}
+              style={activeDashboard() ? activeStyle : undefined}
             >
               <DashboardIcon />
               <p className="pl-3">Dashboard</p>
@@ -69,7 +87,10 @@ const Sidebar = () => {
         </ul>
       </nav>
       <div className="p-8">
-        <button className="flex p-3 items-center rounded-md hover:bg-gray-100">
+        <button
+          onClick={handleLogout}
+          className="flex p-3 items-center rounded-md hover:bg-gray-100"
+        >
           <LogoutIcon />
           <p className="text-gray-400 pl-2 text-lg">Logout</p>
         </button>
