@@ -1,6 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Category } from "../../interfaces/Category";
-import { getCategories } from "./categoryActions";
+import { delCategory } from "./categoryActions";
+import {
+  getCategories,
+  newCategory,
+  getCategory,
+  editCategory,
+} from "./categoryActions";
 
 interface Error {
   msg: string;
@@ -31,7 +37,11 @@ const initialState: CategoryState = {
 export const categorySlice = createSlice({
   name: "category",
   initialState,
-  reducers: {},
+  reducers: {
+    clearCategory: (state) => {
+      state.category = null;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getCategories.pending, (state) => {
       state.loading = true;
@@ -46,8 +56,29 @@ export const categorySlice = createSlice({
         error: action.payload.error,
       };
     });
+    builder.addCase(getCategory.fulfilled, (state, action: any) => {
+      state.category = action.payload;
+    });
+    builder.addCase(newCategory.rejected, (state, action: any) => {
+      state.errorMessage = {
+        msg: action.payload.msg,
+        error: action.payload.error,
+      };
+    });
+    builder.addCase(editCategory.rejected, (state, action: any) => {
+      state.errorMessage = {
+        msg: action.payload.msg,
+        error: action.payload.error,
+      };
+    });
+    builder.addCase(delCategory.rejected, (state, action: any) => {
+      state.errorMessage = {
+        msg: action.payload.msg,
+        error: action.payload.error,
+      };
+    });
   },
 });
 
-export const {} = categorySlice.actions;
+export const { clearCategory } = categorySlice.actions;
 export default categorySlice.reducer;

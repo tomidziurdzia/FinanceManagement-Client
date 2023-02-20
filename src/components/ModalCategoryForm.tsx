@@ -1,11 +1,113 @@
 import React, { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import { CirclePicker } from "react-color";
+import { AlertProps } from "../interfaces/User";
+import { Category } from "../interfaces/Category";
+import { useAppDispatch, useAppSelector } from "../store/store";
+import { newCategory, editCategory } from "../store/category/categoryActions";
+import Alert from "./Alert";
+import { clearCategory } from "../store/category/categorySlice";
 
 const ModalCategoryForm = ({ modalForm, setModalForm }: any) => {
+  const dispatch = useAppDispatch();
+  const { category } = useAppSelector((state) => state.category);
+  const { errorMessage } = useAppSelector((state) => state.category);
+  const [currentColor, setCurrentColor] = React.useState("#f44336");
+
+  const [alert, setAlert] = React.useState<AlertProps>({
+    msg: "",
+    error: undefined,
+  });
+
+  const [values, setValues] = React.useState<Category>({
+    name: "",
+    type: "",
+    color: "",
+    icon: "",
+  });
+
+  React.useEffect(() => {
+    if (category?._id) {
+      setValues({
+        name: category.name,
+        type: category.type,
+        color: category.color,
+        icon: "",
+        _id: category._id,
+      });
+      setCurrentColor(category.color);
+    }
+  }, [category]);
+
+  React.useEffect(() => {
+    if (errorMessage) {
+      setAlert({
+        msg: errorMessage.msg,
+        error: errorMessage.error,
+      });
+    }
+  }, [errorMessage]);
+
   const handleClick = () => {
     setModalForm(!modalForm);
+    setAlert({
+      msg: "",
+      error: undefined,
+    });
+    setValues({
+      name: "",
+      type: "",
+      color: "",
+      icon: "",
+    });
+    dispatch(clearCategory());
+    setCurrentColor("#f44336");
   };
-  const handleSubmit = () => {};
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    setValues({
+      ...values,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    values.color = currentColor;
+
+    if (values.name === "") {
+      setAlert({ msg: "Name is required", error: true });
+      return;
+    }
+
+    if (values.type === "") {
+      setAlert({ msg: "Type is required", error: true });
+      return;
+    }
+
+    if (category?._id) {
+      const resp = await dispatch(editCategory(values));
+      if (resp.meta.requestStatus === "rejected") return;
+    } else {
+      const resp = await dispatch(newCategory(values));
+      if (resp.meta.requestStatus === "rejected") return;
+    }
+
+    setValues({
+      name: "",
+      type: "",
+      color: "",
+      icon: "",
+    });
+    setAlert({
+      msg: "",
+      error: undefined,
+    });
+    setModalForm(!modalForm);
+  };
+  const { msg, error } = alert;
   return (
     <Transition.Root show={modalForm} as={Fragment}>
       <Dialog
@@ -72,10 +174,9 @@ const ModalCategoryForm = ({ modalForm, setModalForm }: any) => {
                     as="h3"
                     className="text-xl leading-6 font-boldtext-center font-bold text-center border-b pb-3"
                   >
-                    {/* {id ? "Edit Platform" : "New Platform"} */}
-                    New Category
+                    {category?._id ? "Edit Platform" : "New Platform"}
                   </Dialog.Title>
-                  {/* {msg && <Alert alert={alert} />} */}
+                  {msg && <Alert msg={msg} error={error} />}
                   <form onSubmit={handleSubmit} className="my-10" action="">
                     <div className="mb-5">
                       <label htmlFor="name" className="font-bold text-m">
@@ -86,8 +187,9 @@ const ModalCategoryForm = ({ modalForm, setModalForm }: any) => {
                         type="text"
                         className="border w-full mt-2 placeholder-gray-400 rounded-md p-2"
                         placeholder="Groceries"
-                        // value={name}
-                        // onChange={(e) => setName(e.target.value)}
+                        name="name"
+                        value={values.name}
+                        onChange={handleChange}
                       />
                     </div>
                     <div className="mb-5">
@@ -97,24 +199,47 @@ const ModalCategoryForm = ({ modalForm, setModalForm }: any) => {
                       <select
                         name="type"
                         id="type"
+                        value={values.type}
+                        onChange={handleChange}
                         className="border w-full p-2 mt-2 placeholder:text-gray-400 rounded-md"
                       >
                         <option value="" disabled>
                           -- Select --
                         </option>
-                        <option value="income" key="income">
+                        <option value="Income" key="income">
                           Income
                         </option>
-                        <option value="expense" key="expense">
+                        <option value="Expense" key="expense">
                           Expense
                         </option>
                       </select>
                     </div>
+                    <div className="mb-5">
+                      <label htmlFor="color" className="font-bold text-m">
+                        Select color
+                      </label>
+                      <div className="mt-2 flex justify-center items-center">
+                        <div className="w-2/3">
+                          <CirclePicker
+                            // color={category?._id && category.color}
+                            onChangeComplete={(color) =>
+                              setCurrentColor(color.hex)
+                            }
+                          />
+                        </div>
+                        <div className="w-1/3 justify-center items-center flex">
+                          <div
+                            className={` w-16 h-16 rounded-full border-4`}
+                            style={{ backgroundColor: currentColor }}
+                          ></div>
+                        </div>
+                      </div>
+                    </div>
 
                     <input
                       type="submit"
-                      //   value={id ? "Save Changes" : "Create Platform"}
-                      className="bg-black text-center text-white border-2 border-black py-2 w-full rounded hover:cursor-pointer hover:bg-white hover:text-black font-bold text-xl transition-colors"
+                      value={category?._id ? "Save Changes" : "Create Category"}
+                      className="bg-primary text-center text-white py-2 w-full rounded hover:cursor-pointer hover:opacity-80 font-bold text-xl transition-colors"
                     />
                   </form>
                 </div>

@@ -2,14 +2,16 @@ import React from "react";
 import WalletIcon from "../assets/WalletIcon";
 import CategoryItem from "../components/CategoryItem";
 import ModalCategoryForm from "../components/ModalCategoryForm";
+import { Category } from "../interfaces/Category";
 import { getCategories } from "../store/category/categoryActions";
 import { useAppSelector, useAppDispatch } from "../store/store";
 
 const Categories = () => {
   const dispatch = useAppDispatch();
-  const { categories } = useAppSelector((state) => state.category);
+  const { categories, loading } = useAppSelector((state) => state.category);
 
   const [modalForm, setModalForm] = React.useState<boolean>(false);
+
   React.useEffect(() => {
     dispatch(getCategories());
   }, [categories.length]);
@@ -36,14 +38,15 @@ const Categories = () => {
           <p className="w-5/12">Actions</p>
         </div>
         <div>
-          <CategoryItem />
-          <CategoryItem />
-          <CategoryItem />
-          <CategoryItem />
-          <CategoryItem />
-          <CategoryItem />
-          <CategoryItem />
-          <CategoryItem />
+          {categories &&
+            categories.map((category: Category) => (
+              <CategoryItem
+                category={category}
+                key={category._id}
+                modalForm={modalForm}
+                setModalForm={setModalForm}
+              />
+            ))}
         </div>
       </div>
     </>
