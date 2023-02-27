@@ -1,96 +1,33 @@
 import React from "react";
 import { MdFastfood, MdDirectionsCar } from "react-icons/md";
+import { useAppSelector, useAppDispatch } from "../store/store";
+import { getCategories } from "../store/category/categoryActions";
 
 const DashboardCategories = () => {
+  const dispatch = useAppDispatch();
+  const { categories } = useAppSelector((state) => state.category);
+
+  React.useEffect(() => {
+    dispatch(getCategories());
+  }, []);
+
   return (
     <div className="w-full ">
       <div className="mb-5">
         <p className="text-xl text-terciary">Categories</p>
       </div>
-      <div className="flex items-center justify-between  text-lg">
-        <MdFastfood className="w-1/12 flex" />
+      <div className="flex items-center justify-between flex-col text-lg">
+        {categories &&
+          categories.map((category) => (
+            <div key={category._id} className="flex w-full items-center">
+              <MdFastfood className="w-1/12" />
+              <p className="w-6/12">{category.name}</p>
+              <p className="w-5/12">$ 2020.02</p>
+            </div>
+          ))}
+        {/* <MdFastfood className="w-1/12 flex" />
         <p className="w-6/12">Groceries</p>
-        <p className="w-5/12">$ 2020.02</p>
-      </div>
-      <div className="flex items-center justify-between  text-lg">
-        <MdDirectionsCar className="w-1/12 flex" />
-        <p className="w-6/12">Car</p>
-        <p className="w-5/12">$ 2020.02</p>
-      </div>
-      <div className="flex items-center justify-between  text-lg">
-        <MdFastfood className="w-1/12 flex" />
-        <p className="w-6/12">Groceries</p>
-        <p className="w-5/12">$ 2020.02</p>
-      </div>
-      <div className="flex items-center justify-between  text-lg">
-        <MdDirectionsCar className="w-1/12 flex" />
-        <p className="w-6/12">Car</p>
-        <p className="w-5/12">$ 2020.02</p>
-      </div>
-      <div className="flex items-center justify-between  text-lg">
-        <MdFastfood className="w-1/12 flex" />
-        <p className="w-6/12">Groceries</p>
-        <p className="w-5/12">$ 2020.02</p>
-      </div>
-      <div className="flex items-center justify-between  text-lg">
-        <MdDirectionsCar className="w-1/12 flex" />
-        <p className="w-6/12">Car</p>
-        <p className="w-5/12">$ 2020.02</p>
-      </div>
-      <div className="flex items-center justify-between  text-lg">
-        <MdFastfood className="w-1/12 flex" />
-        <p className="w-6/12">Groceries</p>
-        <p className="w-5/12">$ 2020.02</p>
-      </div>
-      <div className="flex items-center justify-between  text-lg">
-        <MdDirectionsCar className="w-1/12 flex" />
-        <p className="w-6/12">Car</p>
-        <p className="w-5/12">$ 2020.02</p>
-      </div>
-      <div className="flex items-center justify-between  text-lg">
-        <MdFastfood className="w-1/12 flex" />
-        <p className="w-6/12">Groceries</p>
-        <p className="w-5/12">$ 2020.02</p>
-      </div>
-      <div className="flex items-center justify-between  text-lg">
-        <MdDirectionsCar className="w-1/12 flex" />
-        <p className="w-6/12">Car</p>
-        <p className="w-5/12">$ 2020.02</p>
-      </div>
-      <div className="flex items-center justify-between  text-lg">
-        <MdFastfood className="w-1/12 flex" />
-        <p className="w-6/12">Groceries</p>
-        <p className="w-5/12">$ 2020.02</p>
-      </div>
-      <div className="flex items-center justify-between  text-lg">
-        <MdDirectionsCar className="w-1/12 flex" />
-        <p className="w-6/12">Car</p>
-        <p className="w-5/12">$ 2020.02</p>
-      </div>
-      <div className="flex items-center justify-between  text-lg">
-        <MdFastfood className="w-1/12 flex" />
-        <p className="w-6/12">Groceries</p>
-        <p className="w-5/12">$ 2020.02</p>
-      </div>
-      <div className="flex items-center justify-between  text-lg">
-        <MdDirectionsCar className="w-1/12 flex" />
-        <p className="w-6/12">Car</p>
-        <p className="w-5/12">$ 2020.02</p>
-      </div>
-      <div className="flex items-center justify-between  text-lg">
-        <MdFastfood className="w-1/12 flex" />
-        <p className="w-6/12">Groceries</p>
-        <p className="w-5/12">$ 2020.02</p>
-      </div>
-      <div className="flex items-center justify-between  text-lg">
-        <MdDirectionsCar className="w-1/12 flex" />
-        <p className="w-6/12">Car</p>
-        <p className="w-5/12">$ 2020.02</p>
-      </div>
-      <div className="flex items-center justify-between  text-lg">
-        <MdFastfood className="w-1/12 flex" />
-        <p className="w-6/12">Groceries</p>
-        <p className="w-5/12">$ 2020.02</p>
+        <p className="w-5/12">$ 2020.02</p> */}
       </div>
     </div>
   );

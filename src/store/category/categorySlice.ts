@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Category } from "../../interfaces/Category";
-import { delCategory } from "./categoryActions";
 import {
   getCategories,
   newCategory,
   getCategory,
   editCategory,
+  delCategory,
 } from "./categoryActions";
 
 interface Error {

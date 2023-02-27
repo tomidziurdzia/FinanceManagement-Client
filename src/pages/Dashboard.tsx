@@ -11,7 +11,7 @@ const Dashboard = () => {
           <DashboardBalance />
           <Chart />
         </div>
-        <div className="w-3/12 ml-4 hidden md:flex">
+        <div className="w-3/12 ml-4 hidden md:flex ">
           <DashboardCategories />
         </div>
       </div>

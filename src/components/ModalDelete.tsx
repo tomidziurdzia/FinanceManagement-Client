@@ -3,9 +3,12 @@ import { Transition, Dialog } from "@headlessui/react";
 import { Category } from "../interfaces/Category";
 import { useAppDispatch, useAppSelector } from "../store/store";
 import { delCategory } from "../store/category/categoryActions";
+import { Account } from "../interfaces/Account";
+import { delAccount } from "../store/account/accountActions";
 
 interface CategoryProps {
-  category: Category;
+  category?: Category;
+  account?: Account;
   modalDelete: boolean;
   setModalDelete: Dispatch<SetStateAction<boolean>>;
 }
@@ -14,6 +17,7 @@ const ModalDelete: React.FC<CategoryProps> = ({
   modalDelete,
   setModalDelete,
   category,
+  account,
 }) => {
   const dispatch = useAppDispatch();
   const handleClose = () => {
@@ -23,7 +27,11 @@ const ModalDelete: React.FC<CategoryProps> = ({
   //TODO: ME FALTA AGREGAR LA CONDICION DE QUE NO PEUDE ELIMINAR LA CATEGORIA SI TIENE ASOCIADAS TRANSACCIONES
 
   const handleSubmit = async () => {
-    await dispatch(delCategory(category._id as string));
+    if (category) {
+      await dispatch(delCategory(category!._id as string));
+    } else if (account) {
+      await dispatch(delAccount(account!._id as string));
+    }
   };
   return (
     <Transition.Root show={modalDelete} as={Fragment}>
@@ -105,11 +113,12 @@ const ModalDelete: React.FC<CategoryProps> = ({
                     as="h3"
                     className="text-lg leading-6 font-bold text-gray-900"
                   >
-                    Delete Category
+                    Delete {category ? "Category" : "Account"}
                   </Dialog.Title>
                   <div className="mt-2">
                     <p className="text-sm text-gray-500">
-                      A deleted category cannot be restored
+                      A deleted {category ? "category" : "account"} cannot be
+                      restored
                     </p>
                   </div>
                 </div>
@@ -120,7 +129,7 @@ const ModalDelete: React.FC<CategoryProps> = ({
                   className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
                   onClick={handleSubmit}
                 >
-                  Eliminar
+                  Delete
                 </button>
                 <button
                   type="button"
