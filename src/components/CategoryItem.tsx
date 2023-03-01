@@ -4,6 +4,7 @@ import { Category } from "../interfaces/Category";
 import { useAppDispatch } from "../store/store";
 import { delCategory, getCategory } from "../store/category/categoryActions";
 import ModalDelete from "./ModalDelete";
+import { formatAmount } from "../helpers/formatAmount";
 
 interface CategoryProps {
   category: Category;
@@ -21,6 +22,10 @@ const CategoryItem: React.FC<CategoryProps> = ({
     await dispatch(getCategory(category._id as string));
     setModalForm(!modalForm);
   };
+
+  const total = category.transactions
+    ?.map((transaction) => transaction.amount)
+    .reduce((tot: number, next) => next! + tot, 0);
 
   const [modalDelete, setModalDelete] = React.useState(false);
 
@@ -43,20 +48,20 @@ const CategoryItem: React.FC<CategoryProps> = ({
           <p className="text-start pl-12">{category.name}</p>
         </div>
         <p className="w-2/12 text-center">{category.type}</p>
-        <p className="w-2/12 text-center">$ 2.000</p>
+        <p className="w-2/12 text-center">{formatAmount(total)}</p>
         <div className="w-5/12 flex flex-col lg:flex-row justify-center gap-10">
-          <button className="bg-terciary px-6 py-2 shawod rounded-md text-white hover:cursor-pointer hover:opacity-80 hover:transition-colors">
+          <button className="bg-terciary px-6 py-2 shadow rounded-md text-white hover:cursor-pointer hover:opacity-80 hover:transition-colors">
             View
           </button>
           <button
             onClick={handleClick}
-            className="bg-primary px-6 py-2 shawod rounded-md text-terciary hover:cursor-pointer hover:opacity-80 hover:transition-colors"
+            className="bg-primary px-6 py-2 shadow rounded-md text-terciary hover:cursor-pointer hover:opacity-80 hover:transition-colors"
           >
             Edit
           </button>
           <button
             onClick={handleDelete}
-            className="bg-red-200 px-6 py-2 shawod rounded-md text-terciary hover:cursor-pointer hover:opacity-80 hover:transition-colors"
+            className="bg-red-200 px-6 py-2 shadow rounded-md text-terciary hover:cursor-pointer hover:opacity-80 hover:transition-colors"
           >
             Delete
           </button>

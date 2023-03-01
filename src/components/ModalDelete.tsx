@@ -5,10 +5,13 @@ import { useAppDispatch, useAppSelector } from "../store/store";
 import { delCategory } from "../store/category/categoryActions";
 import { Account } from "../interfaces/Account";
 import { delAccount } from "../store/account/accountActions";
+import { Transaction } from "../interfaces/Transaction";
+import { delTransaction } from "../store/transaction/transactionActions";
 
 interface CategoryProps {
   category?: Category;
   account?: Account;
+  transaction?: Transaction;
   modalDelete: boolean;
   setModalDelete: Dispatch<SetStateAction<boolean>>;
 }
@@ -18,6 +21,7 @@ const ModalDelete: React.FC<CategoryProps> = ({
   setModalDelete,
   category,
   account,
+  transaction,
 }) => {
   const dispatch = useAppDispatch();
   const handleClose = () => {
@@ -31,6 +35,8 @@ const ModalDelete: React.FC<CategoryProps> = ({
       await dispatch(delCategory(category!._id as string));
     } else if (account) {
       await dispatch(delAccount(account!._id as string));
+    } else if (transaction) {
+      await dispatch(delTransaction(transaction!._id as string));
     }
   };
   return (
@@ -113,12 +119,22 @@ const ModalDelete: React.FC<CategoryProps> = ({
                     as="h3"
                     className="text-lg leading-6 font-bold text-gray-900"
                   >
-                    Delete {category ? "Category" : "Account"}
+                    Delete{" "}
+                    {category
+                      ? "Category"
+                      : account
+                      ? "Account"
+                      : "Transaction"}
                   </Dialog.Title>
                   <div className="mt-2">
                     <p className="text-sm text-gray-500">
-                      A deleted {category ? "category" : "account"} cannot be
-                      restored
+                      A deleted{" "}
+                      {category
+                        ? "category"
+                        : account
+                        ? "account"
+                        : "transaction"}{" "}
+                      cannot be restored
                     </p>
                   </div>
                 </div>

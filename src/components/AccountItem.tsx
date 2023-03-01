@@ -4,6 +4,7 @@ import { useAppDispatch } from "../store/store";
 import { getAccount } from "../store/account/accountActions";
 import ModalDelete from "./ModalDelete";
 import WalletIcon from "../assets/WalletIcon";
+import { formatAmount } from "../helpers/formatAmount";
 
 interface AccountProps {
   account: Account;
@@ -21,6 +22,17 @@ const AccountItem: React.FC<AccountProps> = ({
     await dispatch(getAccount(account._id as string));
     setModalForm(!modalForm);
   };
+
+  const income = account.transactions
+    ?.filter((inc) => inc.type === "Income")
+    .map((inc) => inc.amount)
+    .reduce((tot: number, next) => next! + tot, 0);
+  const expense = account.transactions
+    ?.filter((exp) => exp.type === "Expense")
+    .map((exp) => exp.amount)
+    .reduce((tot: number, next) => next! + tot, 0);
+
+  const total = income! - expense!;
 
   const [modalDelete, setModalDelete] = React.useState(false);
 
@@ -41,20 +53,20 @@ const AccountItem: React.FC<AccountProps> = ({
         <div className="w-3/12 flex justify-center">
           <p className="text-start">{account.name}</p>
         </div>
-        <p className="w-3/12 text-center">$ 2.000</p>
+        <p className="w-3/12 text-center">{formatAmount(total)}</p>
         <div className="w-5/12 flex flex-col lg:flex-row justify-center gap-10">
-          <button className="bg-terciary px-6 py-2 shawod rounded-md text-white hover:cursor-pointer hover:opacity-80 hover:transition-colors">
+          <button className="bg-terciary px-6 py-2 shadow rounded-md text-white hover:cursor-pointer hover:opacity-80 hover:transition-colors">
             View
           </button>
           <button
             onClick={handleClick}
-            className="bg-primary px-6 py-2 shawod rounded-md text-terciary hover:cursor-pointer hover:opacity-80 hover:transition-colors"
+            className="bg-primary px-6 py-2 shadow rounded-md text-terciary hover:cursor-pointer hover:opacity-80 hover:transition-colors"
           >
             Edit
           </button>
           <button
             onClick={handleDelete}
-            className="bg-red-200 px-6 py-2 shawod rounded-md text-terciary hover:cursor-pointer hover:opacity-80 hover:transition-colors"
+            className="bg-red-200 px-6 py-2 shadow rounded-md text-terciary hover:cursor-pointer hover:opacity-80 hover:transition-colors"
           >
             Delete
           </button>

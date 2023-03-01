@@ -1,10 +1,10 @@
-import { Transactions } from "./Transactions";
+import { Transaction } from "./Transaction";
 
 export interface Category {
   _id?: string;
   name: string;
   type: string;
-  transactions?: Transactions[];
+  transactions?: Transaction[];
   color: string;
   icon: string;
 }
