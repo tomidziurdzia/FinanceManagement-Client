@@ -321,7 +321,7 @@ const ModalTransactionForm = ({ modalForm, setModalForm }: any) => {
                         className="border w-full mt-2 placeholder-gray-400 rounded-md p-2"
                         placeholder="$ 200.00"
                         name="amount"
-                        value={values.amount as any}
+                        value={values.amount ? values.amount : undefined}
                         onChange={handleChange}
                       />
                     </div>

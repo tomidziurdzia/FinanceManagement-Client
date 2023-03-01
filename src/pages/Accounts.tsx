@@ -36,7 +36,7 @@ const Accounts = () => {
           <p className="w-5/12">Actions</p>
         </div>
         <div>
-          {accounts &&
+          {accounts.length ? (
             accounts.map((account: Account) => (
               <AccountItem
                 account={account}
@@ -44,7 +44,12 @@ const Accounts = () => {
                 modalForm={modalForm}
                 setModalForm={setModalForm}
               />
-            ))}
+            ))
+          ) : (
+            <div className="text-center py-5 text-lg font-bold">
+              Add a new account
+            </div>
+          )}
         </div>
       </div>
     </>

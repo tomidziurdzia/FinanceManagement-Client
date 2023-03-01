@@ -38,7 +38,7 @@ const Categories = () => {
           <p className="w-5/12">Actions</p>
         </div>
         <div>
-          {categories &&
+          {categories.length ? (
             categories.map((category: Category) => (
               <CategoryItem
                 category={category}
@@ -46,7 +46,12 @@ const Categories = () => {
                 modalForm={modalForm}
                 setModalForm={setModalForm}
               />
-            ))}
+            ))
+          ) : (
+            <div className="text-center py-5 text-lg font-bold">
+              Add a new category
+            </div>
+          )}
         </div>
       </div>
     </>

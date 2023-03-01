@@ -42,7 +42,7 @@ const Transactions = () => {
           <p className="w-3/12">Actions</p>
         </div>
         <div>
-          {transactions &&
+          {transactions.length ? (
             transactions.map((transaction: Transaction) => (
               <TransactionItem
                 transaction={transaction}
@@ -50,7 +50,12 @@ const Transactions = () => {
                 modalForm={modalForm}
                 setModalForm={setModalForm}
               />
-            ))}
+            ))
+          ) : (
+            <div className="text-center py-5 text-lg font-bold">
+              Add a new transaction
+            </div>
+          )}
         </div>
       </div>
     </>

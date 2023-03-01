@@ -43,7 +43,9 @@ const TransactionItem: React.FC<TransactionProps> = ({
         <p className="w-2/12 text-center">{transaction.category.name}</p>
         <p className="w-2/12 text-center">{transaction.account.name}</p>
         <p className="w-1/12 text-center">{transaction.type}</p>
-        <p className="w-1/12 text-center">{formatAmount(transaction.amount)}</p>
+        <p className="w-1/12 text-center">
+          {formatAmount(transaction.amount as any)}
+        </p>
         <div className="w-3/12 flex flex-col lg:flex-row justify-center gap-4">
           <button className="bg-terciary px-4 py-1 shadow rounded-md text-white hover:cursor-pointer hover:opacity-80 hover:transition-colors">
             View

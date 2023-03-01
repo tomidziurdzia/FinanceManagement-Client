@@ -1,7 +1,44 @@
 import React from "react";
+import { useAppSelector } from "../store/store";
+import { formatDate } from "../helpers/formatDate";
+import { formatAmount } from "../helpers/formatAmount";
 
 const DashboardTransactions = () => {
-  return <div className="bg-gray-200 h-96 mt-4">DashboardTransactions</div>;
+  const { transactions } = useAppSelector((state) => state.transaction);
+  return (
+    <div className="flex flex-col">
+      <div className="flex w-full justify-start text-center p-4 border-b-2 text-xl">
+        <p className="w-2/12">Date</p>
+        <p className="w-2/12">Description</p>
+        <p className="w-2/12">Category</p>
+        <p className="w-2/12">Account</p>
+        <p className="w-2/12">Type</p>
+        <p className="w-2/12">Amount</p>
+      </div>
+      <div>
+        {transactions.map((transaction) => (
+          <div
+            key={transaction._id}
+            className="flex justify-start items-center text-lg px-4 py-2 border-b-2 border-gray-50"
+          >
+            <p className="w-2/12 text-center">
+              {formatDate(transaction.date as any)}
+            </p>
+
+            <div className="w-2/12 flex justify-start pl-10">
+              <p className="text-start">{transaction.description}</p>
+            </div>
+            <p className="w-2/12 text-center">{transaction.category.name}</p>
+            <p className="w-2/12 text-center">{transaction.account.name}</p>
+            <p className="w-2/12 text-center">{transaction.type}</p>
+            <p className="w-2/12 text-center">
+              {formatAmount(transaction.amount as any)}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default DashboardTransactions;
