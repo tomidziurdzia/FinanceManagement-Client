@@ -8,7 +8,7 @@ const DashboardTransactions = () => {
   const { transactions } = useAppSelector((state) => state.transaction);
   return (
     <div className="flex flex-col">
-      <div className="flex w-full justify-start text-center p-4 border-b-2 text-xl">
+      <div className="hidden lg:flex w-full justify-start text-center p-4 border-b-2 text-xl">
         <p className="w-2/12">Date</p>
         <p className="w-2/12">Description</p>
         <p className="w-2/12">Category</p>
@@ -21,13 +21,13 @@ const DashboardTransactions = () => {
           transactions.slice(0, 8).map((transaction) => (
             <div
               key={transaction._id}
-              className="flex justify-start items-center text-lg px-4 py-2 border-b-2 border-gray-50"
+              className="lg:flex grid grid-cols-3 gap-4 justify-start items-center lg:text-lg px-4 py-2 border-b-2 border-gray-50"
             >
               <p className="w-2/12 text-center">
                 {formatDate(transaction.date as any)}
               </p>
 
-              <div className="w-2/12 flex justify-start pl-10">
+              <div className="w-2/12 flex justify-start lg:pl-10">
                 <p className="text-start">{transaction.description}</p>
               </div>
               <p className="w-2/12 text-center">{transaction.category.name}</p>

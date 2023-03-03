@@ -35,8 +35,8 @@ const CategoryItem: React.FC<CategoryProps> = ({
 
   return (
     <>
-      <div className="flex justify-center items-center text-lg px-4 py-2 border-b-2 border-gray-50">
-        <div className="w-1/12 flex justify-center">
+      <div className="lg:flex grid grid-cols-2 grid-rows-4 justify-center items-center lg:text-lg px-4 py-2 border-b-2 border-gray-50">
+        <div className="lg:w-1/12 flex justify-center">
           <div
             style={{ backgroundColor: category.color }}
             className="rounded-full p-2 opacity-80"
@@ -44,12 +44,12 @@ const CategoryItem: React.FC<CategoryProps> = ({
             <WalletIcon />
           </div>
         </div>
-        <div className="w-2/12 flex justify-start">
-          <p className="text-start pl-12">{category.name}</p>
+        <div className="lg:w-2/12 flex justify-center lg:justify-start">
+          <p className="lg:text-start lg:pl-12">{category.name}</p>
         </div>
-        <p className="w-2/12 text-center">{category.type}</p>
-        <p className="w-2/12 text-center">{formatAmount(total)}</p>
-        <div className="w-5/12 flex flex-col lg:flex-row justify-center gap-10">
+        <p className="lg:w-2/12 text-center">{category.type}</p>
+        <p className="lg:w-2/12 text-center">{formatAmount(total)}</p>
+        <div className="lg:w-5/12 flex w-2/3 m-auto flex-col lg:flex-row justify-center gap-2 lg:gap-10 col-start-2 col-end-2 row-start-1 row-end-5">
           <button className="bg-terciary px-6 py-2 shadow rounded-md text-white hover:cursor-pointer hover:opacity-80 hover:transition-colors">
             View
           </button>

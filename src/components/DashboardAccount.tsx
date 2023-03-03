@@ -13,24 +13,26 @@ const DashboardAccount = () => {
 
   return (
     <div className="flex flex-col">
-      <div className="flex w-full justify-start text-center p-4 border-b-2 text-xl">
-        <p className="w-2/12">Icon</p>
-        <p className="w-5/12">Account</p>
+      <div className="flex w-full justify-center lg:justify-start text-center p-4 border-b-2 lg:text-xl">
+        <p className="w-1/12">Icon</p>
+        <p className="w-6/12">Account</p>
         <p className="w-5/12">Amount</p>
       </div>
-      <div>
+      <div className="text-sm lg:text-lg">
         {accounts.map((account) => (
           <div
             key={account._id}
-            className="flex justify-center items-center text-lg px-4 py-2 border-b-2 border-gray-50"
+            className="flex justify-center items-center px-4 py-2 border-b-2 border-gray-50"
           >
             <div
               style={{ backgroundColor: account.color }}
-              className="w-2/12 flex justify-center"
+              className="w-1/12 flex justify-center"
             >
-              <WalletIcon />
+              <div className="w-6">
+                <WalletIcon />
+              </div>
             </div>
-            <p className="w-5/12 flex justify-start pl-20">{account.name}</p>
+            <p className="w-6/12 flex justify-start pl-2">{account.name}</p>
             <p className="w-5/12 flex justify-center">
               {formatAmount(
                 account

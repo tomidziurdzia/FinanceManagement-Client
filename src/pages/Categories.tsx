@@ -29,7 +29,7 @@ const Categories = () => {
         <ModalCategoryForm modalForm={modalForm} setModalForm={setModalForm} />
       </div>
       <div className="bg-gray-100 shadow-sm rounded-md">
-        <div className="flex w-full justify-center text-center p-4 border-b-2 text-xl">
+        <div className="flex w-full justify-center text-center p-4 border-b-2 text-xl  hidden lg:flex">
           <p className="w-1/12">Icon</p>
           <p className="w-2/12">Name</p>
           <p className="w-2/12">Type</p>
