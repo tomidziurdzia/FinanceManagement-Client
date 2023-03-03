@@ -28,9 +28,11 @@ export const newTransaction = createAsyncThunk<Object, Transaction>(
   "transaction/newTransaction",
 
   async (transaction, thunkAPI) => {
+    console.log(transaction);
     try {
       const { data } = await clientAxios.post("/transactions", transaction);
       thunkAPI.dispatch(getTransactions());
+      console.log(data);
       return data;
     } catch (error: any) {
       console.log(error);

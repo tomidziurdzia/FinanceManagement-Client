@@ -2,155 +2,132 @@ import React, { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { AlertProps } from "../interfaces/User";
 import { useAppDispatch, useAppSelector } from "../store/store";
-import { getCategories } from "../store/category/categoryActions";
+import { getAccounts } from "../store/account/accountActions";
+import { Account } from "../interfaces/Account";
 import Alert from "./Alert";
 import { Transaction } from "../interfaces/Transaction";
+import { newTransaction } from "../store/transaction/transactionActions";
+import { getCategories } from "../store/category/categoryActions";
 import { clearTransaction } from "../store/transaction/transactionSlice";
-import { getAccounts } from "../store/account/accountActions";
-import {
-  editTransaction,
-  newTransaction,
-} from "../store/transaction/transactionActions";
 
-const ModalTransactionForm = ({ modalForm, setModalForm }: any) => {
+const ModalBetweenAccounts = ({
+  modalFormBetween,
+  setModalFormBetween,
+}: any) => {
   const dispatch = useAppDispatch();
   const { accounts } = useAppSelector((state) => state.account);
   const { categories } = useAppSelector((state) => state.category);
-  const { transaction } = useAppSelector((state) => state.transaction);
-  const { errorMessage } = useAppSelector((state) => state.category);
-
+  const { errorMessage } = useAppSelector((state) => state.account);
   const [alert, setAlert] = React.useState<AlertProps>({
     msg: "",
     error: undefined,
   });
-
-  const [values, setValues] = React.useState<Transaction>({
-    date: Date.now(),
-    description: "",
-    type: "",
-    category: "" as any,
-    account: "" as any,
-    amount: null,
-  });
-
-  let categorySelected;
-  if (values.type === "Expense") {
-    categorySelected = categories.filter(
-      (category) => category.type === "Expense"
-    );
-  } else if (values.type === "Income") {
-    categorySelected = categories.filter(
-      (category) => category.type === "Income"
-    );
-  }
 
   React.useEffect(() => {
     dispatch(getAccounts());
     dispatch(getCategories());
   }, []);
 
-  React.useEffect(() => {
-    if (transaction?._id) {
-      setValues({
-        date: (transaction.date as any).split("T")[0],
-        description: transaction.description,
-        type: transaction.type,
-        category: transaction.category,
-        account: transaction.account,
-        amount: transaction.amount,
-        _id: transaction._id,
-      });
-    }
-  }, [transaction]);
+  const transfer = categories.filter(
+    (category) => category.name === "Transfer"
+  );
+
+  const [valuesFrom, setValuesFrom] = React.useState<Transaction>({
+    date: Date.now(),
+    description: "Transfer Account",
+    type: "Expense",
+    category: transfer[0]?._id as any,
+    account: "" as any,
+    amount: null,
+  });
+
+  const [valuesTo, setValuesTo] = React.useState<Transaction>({
+    date: Date.now(),
+    description: valuesFrom.description,
+    type: "Income",
+    category: transfer[0]?._id as any,
+    account: "" as any,
+    amount: null,
+  });
+
+  React.useEffect(
+    () =>
+      setValuesTo({
+        date: valuesFrom.date,
+        description: valuesFrom.description,
+        type: "Income",
+        category: transfer[0]?._id as any,
+        account: valuesTo.account,
+        amount: valuesFrom.amount,
+      }),
+    [valuesFrom]
+  );
 
   React.useEffect(() => {
-    if (errorMessage) {
-      setAlert({
-        msg: errorMessage.msg,
-        error: errorMessage.error,
-      });
-    }
-  }, [errorMessage]);
+    setValuesTo({
+      ...valuesTo,
+      category: transfer[0]?._id as any,
+    });
+  }, []);
+
+  const handleChangeFrom = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    setValuesFrom({
+      ...valuesFrom,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const handleChangeTo = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    setValuesTo({
+      ...valuesTo,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleClick = () => {
-    setModalForm(!modalForm);
+    setModalFormBetween(!modalFormBetween);
     setAlert({
       msg: "",
       error: undefined,
     });
-    setValues({
-      date: Date.now(),
-      description: "",
-      type: "",
-      category: "" as any,
-      account: "" as any,
-      amount: null,
-    });
-    dispatch(clearTransaction());
-  };
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    setValues({
-      ...values,
-      [e.target.name]: e.target.value,
-    });
+    dispatch(clearTransaction());
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (values.description === "") {
-      setAlert({ msg: "Description is required", error: true });
-      return;
-    }
-
-    if (values.type === "") {
-      setAlert({ msg: "Type is required", error: true });
-      return;
-    }
-
-    if (values.category === ("" as any)) {
-      setAlert({ msg: "Category is required", error: true });
-      return;
-    }
-
-    if (values.account === ("" as any)) {
-      setAlert({ msg: "Account is required", error: true });
-      return;
-    }
-
-    if (values.amount === undefined) {
-      setAlert({ msg: "Amount is required", error: true });
-      return;
-    }
-
-    if (transaction?._id) {
-      const resp = await dispatch(editTransaction(values));
-      if (resp.meta.requestStatus === "rejected") return;
-    } else {
-      const resp = await dispatch(newTransaction(values));
-      if (resp.meta.requestStatus === "rejected") return;
-    }
-
-    setValues({
+    await Promise.all([
+      dispatch(newTransaction(valuesFrom)),
+      dispatch(newTransaction(valuesTo)),
+    ]);
+    setValuesFrom({
+      ...valuesFrom,
       date: Date.now(),
-      description: "",
-      type: "",
-      category: "" as any,
       account: "" as any,
       amount: null,
+    });
+    setValuesTo({
+      date: valuesFrom.date,
+      description: valuesFrom.description,
+      type: "Income",
+      category: transfer[0]?._id as any,
+      account: "" as any,
+
+      amount: valuesFrom.amount,
     });
     setAlert({
       msg: "",
       error: undefined,
     });
-    setModalForm(!modalForm);
+    setModalFormBetween(!modalFormBetween);
   };
   const { msg, error } = alert;
   return (
-    <Transition.Root show={modalForm} as={Fragment}>
+    <Transition.Root show={modalFormBetween} as={Fragment}>
       <Dialog
         as="div"
         className="fixed z-10 inset-0 -mt-64 md:-mt-0 overflow-y-auto"
@@ -215,7 +192,7 @@ const ModalTransactionForm = ({ modalForm, setModalForm }: any) => {
                     as="h3"
                     className="text-xl leading-6 font-boldtext-center font-bold text-center border-b pb-3"
                   >
-                    {transaction?._id ? "Edit Transaction" : "New Transaction"}
+                    Transfer between accounts
                   </Dialog.Title>
                   {msg && <Alert msg={msg} error={error} />}
                   <form onSubmit={handleSubmit} className="my-10" action="">
@@ -228,64 +205,28 @@ const ModalTransactionForm = ({ modalForm, setModalForm }: any) => {
                         id="date"
                         className="border w-full mt-2 placeholder-gray-400 rounded-md p-2"
                         name="date"
-                        value={values.date as any}
-                        onChange={handleChange}
+                        value={valuesFrom.date as any}
+                        onChange={handleChangeFrom}
                       />
-                    </div>
-                    <div className="mb-5">
-                      <label htmlFor="name" className="font-bold text-m">
-                        Description
-                      </label>
-                      <input
-                        id="name"
-                        type="text"
-                        className="border w-full mt-2 placeholder-gray-400 rounded-md p-2"
-                        placeholder="Car insurance"
-                        name="description"
-                        value={values.description}
-                        onChange={handleChange}
-                      />
-                    </div>
-                    <div className="mb-5">
-                      <label htmlFor="type" className="font-bold text-m">
-                        Type
-                      </label>
-                      <select
-                        name="type"
-                        id="type"
-                        value={values.type}
-                        onChange={handleChange}
-                        className="border w-full p-2 mt-2 placeholder:text-gray-400 rounded-md"
-                      >
-                        <option value="" disabled>
-                          -- Select --
-                        </option>
-                        <option value="Income" key="income">
-                          Income
-                        </option>
-                        <option value="Expense" key="expense">
-                          Expense
-                        </option>
-                      </select>
                     </div>
 
                     <div className="mb-5">
-                      <label htmlFor="category" className="font-bold text-m">
-                        Category
+                      <label htmlFor="account" className="font-bold text-m">
+                        From
                       </label>
                       <select
-                        name="category"
-                        id="category"
-                        value={values.category as any}
-                        onChange={handleChange}
+                        name="account"
+                        id="account"
+                        value={valuesFrom.account as any}
+                        onChange={handleChangeFrom}
                         className="border w-full p-2 mt-2 placeholder:text-gray-400 rounded-md"
                       >
                         <option value="" disabled>
                           -- Select --
                         </option>
-                        {categorySelected?.map((category) => (
-                          <option key={category._id} value={category._id}>
-                            {category.name}
+                        {accounts.map((account) => (
+                          <option key={account._id} value={account._id}>
+                            {account.name}
                           </option>
                         ))}
                       </select>
@@ -293,13 +234,13 @@ const ModalTransactionForm = ({ modalForm, setModalForm }: any) => {
 
                     <div className="mb-5">
                       <label htmlFor="account" className="font-bold text-m">
-                        Account
+                        To
                       </label>
                       <select
                         name="account"
                         id="account"
-                        value={values.account as any}
-                        onChange={handleChange}
+                        value={valuesTo.account as any}
+                        onChange={handleChangeTo}
                         className="border w-full p-2 mt-2 placeholder:text-gray-400 rounded-md"
                       >
                         <option value="" disabled>
@@ -319,20 +260,18 @@ const ModalTransactionForm = ({ modalForm, setModalForm }: any) => {
                       </label>
                       <input
                         id="amount"
-                        type="text"
+                        type="number"
                         className="border w-full mt-2 placeholder-gray-400 rounded-md p-2"
                         placeholder="$ 200.00"
                         name="amount"
-                        value={values.amount ? values.amount : undefined}
-                        onChange={handleChange}
+                        value={valuesFrom?.amount!}
+                        onChange={handleChangeFrom}
                       />
                     </div>
 
                     <input
                       type="submit"
-                      value={
-                        transaction?._id ? "Save Changes" : "Create Transaction"
-                      }
+                      value="Create Transaction"
                       className="bg-primary text-center text-white py-2 w-full rounded hover:cursor-pointer hover:opacity-80 font-bold text-xl transition-colors"
                     />
                   </form>
@@ -346,4 +285,4 @@ const ModalTransactionForm = ({ modalForm, setModalForm }: any) => {
   );
 };
 
-export default ModalTransactionForm;
+export default ModalBetweenAccounts;
