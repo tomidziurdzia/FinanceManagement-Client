@@ -7,6 +7,8 @@ import { Account } from "../interfaces/Account";
 import { delAccount } from "../store/account/accountActions";
 import { Transaction } from "../interfaces/Transaction";
 import { delTransaction } from "../store/transaction/transactionActions";
+import { AlertProps } from "../interfaces/User";
+import Alert from "./Alert";
 
 interface CategoryProps {
   category?: Category;
@@ -25,10 +27,39 @@ const ModalDelete: React.FC<CategoryProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const handleClose = () => {
+    setAlert({
+      msg: "",
+      error: undefined,
+    });
     setModalDelete(!modalDelete);
   };
 
   //TODO: ME FALTA AGREGAR LA CONDICION DE QUE NO PEUDE ELIMINAR LA CATEGORIA SI TIENE ASOCIADAS TRANSACCIONES
+  const { errorMessage: catError } = useAppSelector((state) => state.category);
+  const { errorMessage: accError } = useAppSelector((state) => state.account);
+
+  const [alert, setAlert] = React.useState<AlertProps>({
+    msg: "",
+    error: undefined,
+  });
+
+  React.useEffect(() => {
+    if (catError) {
+      setAlert({
+        msg: catError.msg,
+        error: catError.error,
+      });
+    }
+  }, [catError]);
+
+  React.useEffect(() => {
+    if (accError) {
+      setAlert({
+        msg: accError.msg,
+        error: accError.error,
+      });
+    }
+  }, [accError]);
 
   const handleSubmit = async () => {
     if (category) {
@@ -39,6 +70,8 @@ const ModalDelete: React.FC<CategoryProps> = ({
       await dispatch(delTransaction(transaction!._id as string));
     }
   };
+
+  const { msg, error } = alert;
   return (
     <Transition.Root show={modalDelete} as={Fragment}>
       <Dialog
@@ -126,6 +159,7 @@ const ModalDelete: React.FC<CategoryProps> = ({
                       ? "Account"
                       : "Transaction"}
                   </Dialog.Title>
+                  {msg && <Alert msg={msg} error={error} />}
                   <div className="mt-2">
                     <p className="text-sm text-gray-500">
                       A deleted{" "}

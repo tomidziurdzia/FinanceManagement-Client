@@ -73,6 +73,7 @@ export const delCategory = createAsyncThunk<any, string>(
       thunkAPI.dispatch(getCategories());
       return;
     } catch (error: any) {
+      console.log(error);
       return thunkAPI.rejectWithValue({
         msg: error.response.data.msg,
         error: true,

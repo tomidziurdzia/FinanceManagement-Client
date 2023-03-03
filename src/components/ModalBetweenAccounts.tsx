@@ -100,6 +100,21 @@ const ModalBetweenAccounts = ({
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (valuesFrom.account === ("" as any)) {
+      setAlert({ msg: "Account from is required", error: true });
+      return;
+    }
+
+    if (valuesTo.account === ("" as any)) {
+      setAlert({ msg: "Account to is required", error: true });
+      return;
+    }
+
+    if (valuesFrom.amount === undefined || valuesFrom.amount === null) {
+      setAlert({ msg: "Amount is required", error: true });
+      return;
+    }
+
     await Promise.all([
       dispatch(newTransaction(valuesFrom)),
       dispatch(newTransaction(valuesTo)),
@@ -264,7 +279,9 @@ const ModalBetweenAccounts = ({
                         className="border w-full mt-2 placeholder-gray-400 rounded-md p-2"
                         placeholder="$ 200.00"
                         name="amount"
-                        value={valuesFrom?.amount!}
+                        value={
+                          valuesFrom.amount ? valuesFrom.amount : undefined
+                        }
                         onChange={handleChangeFrom}
                       />
                     </div>
