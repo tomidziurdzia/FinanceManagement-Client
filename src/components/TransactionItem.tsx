@@ -18,6 +18,7 @@ const TransactionItem: React.FC<TransactionProps> = ({
   setModalForm,
 }) => {
   const dispatch = useAppDispatch();
+  console.log(transaction);
 
   const handleClick = async () => {
     await dispatch(getTransaction(transaction._id as string));
@@ -42,7 +43,11 @@ const TransactionItem: React.FC<TransactionProps> = ({
         </div>
         <p className="w-2/12 text-center">{transaction.category.name}</p>
         <p className="w-2/12 text-center">{transaction.account.name}</p>
-        <p className="w-1/12 text-center">{transaction.type}</p>
+        <p className="w-1/12 text-center">
+          {transaction.category.name === "Transfer"
+            ? "Transfer"
+            : transaction.type}
+        </p>
         <p className="w-1/12 text-center">
           {formatAmount(transaction.amount as any)}
         </p>

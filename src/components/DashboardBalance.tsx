@@ -13,18 +13,21 @@ const DashboardBalance = () => {
     dispatch(getTransactions());
   }, []);
 
+  console.log(transactions);
+
   const income = transactions
     ?.filter((inc) => inc.type === "Income")
+    .filter((tra) => tra.category.name !== "Transfer")
     .map((inc) => inc.amount)
     .reduce((tot: number, next) => next! + tot, 0);
   const expense = transactions
     ?.filter((exp) => exp.type === "Expense")
+    .filter((tra) => tra.category.name !== "Transfer")
     .map((exp) => exp.amount)
     .reduce((tot: number, next) => next! + tot, 0);
 
   const total = income! - expense!;
 
-  console.log(total);
   return (
     <div className="flex flex-col w-full md:flex-row">
       <div className="bg-terciary flex m-auto md:m-0 md:w-1/3 gap-6 justify-center items-center rounded-xl h-20 md:h-28 shadow-sm p-4 md:p-0">

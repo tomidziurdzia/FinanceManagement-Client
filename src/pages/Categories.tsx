@@ -39,14 +39,16 @@ const Categories = () => {
         </div>
         <div>
           {categories.length ? (
-            categories.map((category: Category) => (
-              <CategoryItem
-                category={category}
-                key={category._id}
-                modalForm={modalForm}
-                setModalForm={setModalForm}
-              />
-            ))
+            categories
+              .filter((transfer) => transfer.name !== "Transfer")
+              .map((category: Category) => (
+                <CategoryItem
+                  category={category}
+                  key={category._id}
+                  modalForm={modalForm}
+                  setModalForm={setModalForm}
+                />
+              ))
           ) : (
             <div className="text-center py-5 text-lg font-bold">
               Add a new category
